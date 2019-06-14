@@ -11,6 +11,34 @@ class App extends Component {
     ]
   }
 
+  handleClick = (id) => {
+    const { todos } = this.state
+    this.setState({
+      todos: todos.map( todo => {
+        if (todo.id === id) {
+          return {
+            ...todo, 
+            complete: !todo.complete
+          }
+        }
+        return todo
+      })
+    })
+  }
+
+  getUniqId = () => {
+    //NOTE We are just using this as a helper function for id's since we aren't using a db yet
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+   }
+
+  addItem = (name) => {
+    const { todos } = this.state
+    const newTodo = { id: this.getUniqId(), name, complete: false}
+    this.setState({ todos: [...todos, newTodo] })
+  }
+
   // renderTodos = () => {
   //   const { todos } = this.state
   //   return todos.map( todo => {
@@ -24,8 +52,8 @@ class App extends Component {
     const { todos } = this.state
   return (
     <div>
-      <TodoForm />
-      <List name='Todo List' items={todos}/>
+      <TodoForm addItem={this.addItem}/>
+      <List name='Todo List' items={todos} handleClick={this.handleClick}/>
     </div>
    );
   }

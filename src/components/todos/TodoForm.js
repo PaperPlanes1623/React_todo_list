@@ -9,8 +9,12 @@ class TodoForm extends Component {
   }
 
   handleSubmit = (e) => {
+    //stop page from reloading
     e.preventDefault();
-
+    //add the item to the todos array
+    this.props.addItem(this.state.name)
+    //clear out the form
+    this.setState({ name: '' })
   }
 
   render() {
@@ -18,7 +22,7 @@ class TodoForm extends Component {
       <form onSubmit={this.handleSubmit}>
         <input 
         required 
-        placeholder='add a todo here' 
+        placeholder='add todo & press Enter' 
         name="name" 
         value={this.state.name}
         onChange={this.handleChange}
